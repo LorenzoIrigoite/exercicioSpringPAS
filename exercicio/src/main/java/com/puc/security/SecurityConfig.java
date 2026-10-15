@@ -2,7 +2,6 @@ package com.puc.security;
 
 import com.puc.model.UsuarioSistema;
 import com.puc.repository.UsuarioSistemaRepository;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -32,22 +31,6 @@ public class SecurityConfig {
                         .roles(usuario.getPerfil())
                         .build())
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
-    }
-
-    @Bean
-    public CommandLineRunner inicializaUsuariosSistema(
-            UsuarioSistemaRepository usuarioSistemaRepository,
-            PasswordEncoder passwordEncoder) {
-        return args -> {
-            if (!usuarioSistemaRepository.existsByUsername("admin")) {
-                usuarioSistemaRepository.save(new UsuarioSistema("admin",
-                        passwordEncoder.encode("admin123"), "ADMIN"));
-            }
-            if (!usuarioSistemaRepository.existsByUsername("consulta")) {
-                usuarioSistemaRepository.save(new UsuarioSistema("consulta",
-                        passwordEncoder.encode("consulta123"), "CONSULTA"));
-            }
-        };
     }
 
     @Bean
